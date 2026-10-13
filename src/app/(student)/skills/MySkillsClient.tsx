@@ -17,11 +17,18 @@ interface Props {
 }
 
 export default function MySkillsClient({ skillAccess, lessonProgress, lessonCounts }: Props) {
-  const activeSkills = skillAccess.filter(sa => sa.status === 'active');
-  const completedSkills = skillAccess.filter(sa => sa.status === 'completed');
+  const isSkillFullyCompleted = (sa: any) => {
+    const isCurriculumDone = sa.skill?.is_curriculum_complete ?? false;
+    return isCurriculumDone && sa.status === 'completed';
+  };
 
-  const getProgress = (skillId: string) => {
-    const total = lessonCounts[skillId] || 0;
+  const activeSkills = skillAccess.filter(sa => !isSkillFullyCompleted(sa));
+  const completedSkills = skillAccess.filter(sa => isSkillFullyCompleted(sa));
+
+  const getProgress = (skillId: string, skill?: Skill) => {
+    const total = (skill?.total_planned_lessons && skill.total_planned_lessons > (lessonCounts[skillId] || 0))
+      ? skill.total_planned_lessons
+      : (lessonCounts[skillId] || 0);
     const completed = lessonProgress.filter(lp => lp.skill_id === skillId && lp.is_completed).length;
     return calculateProgress(completed, total);
   };
@@ -59,7 +66,8 @@ export default function MySkillsClient({ skillAccess, lessonProgress, lessonCoun
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {activeSkills.map((sa, idx) => {
-              const progress = getProgress(sa.skill_id);
+              const progress = getProgress(sa.skill_id, sa.skill);
+              const isCurriculumDone = sa.skill?.is_curriculum_complete ?? false;
               return (
                 <Link key={sa.id} href={`/skills/${sa.skill_id}`}>
                   <Card
@@ -76,7 +84,9 @@ export default function MySkillsClient({ skillAccess, lessonProgress, lessonCoun
                           {sa.skill?.name}
                         </h3>
                       </div>
-                      <Badge variant="info">Active</Badge>
+                      <Badge variant={isCurriculumDone ? "info" : "warning"}>
+                        {isCurriculumDone ? "Active" : "Daily Release"}
+                      </Badge>
                     </div>
                     <ProgressBar value={progress} showLabel size="sm" className="mb-3" />
                     <div className="flex items-center justify-between">

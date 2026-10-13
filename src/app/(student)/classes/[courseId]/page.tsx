@@ -4,9 +4,60 @@ import { cookies } from 'next/headers';
 import { Metadata } from 'next';
 import CourseDetailClient from './CourseDetailClient';
 
-export const metadata: Metadata = {
-  title: 'Course Modules & Classes — Vyat',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ courseId: string }>;
+}): Promise<Metadata> {
+  const { courseId } = await params;
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vyat-v3.vercel.app';
+  const supabase = await createClient();
+  const { data: course } = await supabase
+    .from('courses')
+    .select('name, description, branch:branches(name)')
+    .eq('id', courseId)
+    .single();
+
+  const courseName = course?.name || DEMO_COURSES[courseId]?.name || 'Course Curriculum';
+  const courseDesc = course?.description || DEMO_COURSES[courseId]?.description || 'Explore structured curriculum modules, video lessons, and verified certificates.';
+  const branchName = (course?.branch as any)?.name || DEMO_COURSES[courseId]?.branch?.name || 'Computer Science';
+
+  const title = `${courseName} Course — Vyat`;
+  const canonicalUrl = `${BASE_URL}/classes/${courseId}`;
+
+  return {
+    title,
+    description: courseDesc,
+    keywords: [
+      courseName,
+      branchName,
+      'Courses for CSE',
+      'CSE Students India',
+      'Engineering Placements',
+      'Core Subjects CSE',
+      'Data Structures Algorithms DSA',
+      'Web Dev CSE',
+      'AI Learning Engineering',
+      'Computer Science Engineering syllabus',
+      'B.Tech CSE classes',
+    ],
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description: courseDesc,
+      url: canonicalUrl,
+      type: 'article',
+      siteName: 'Vyat',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: courseDesc,
+    },
+  };
+}
 
 /* ─── Rich Demo Data for Demo Students ─── */
 const DEMO_COURSES: Record<string, any> = {
@@ -251,46 +302,47 @@ export default async function CourseDetailPage({
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user && demoRole !== 'student') {
-    redirect('/login');
-  }
-
-  // Demo mode
-  if (!user && demoRole === 'student') {
+  // Demo fallback
+  if (demoRole === 'student' || (!user && DEMO_COURSES[courseId])) {
     const demoCourse = DEMO_COURSES[courseId];
-    if (!demoCourse) notFound();
-    return <CourseDetailClient course={demoCourse} />;
+    if (demoCourse) return <CourseDetailClient course={demoCourse} />;
   }
 
-  // Real user: fetch course with skills + student access
+  // Fetch course with skills
   const { data: course } = await supabase
     .from('courses')
     .select(`
       *,
       branch:branches(name, icon),
-      skills(id, name, short_description, description, difficulty, estimated_hours, sort_order, is_active)
+      skills(id, name, short_description, description, difficulty, estimated_hours, sort_order, is_active, is_curriculum_complete, total_planned_lessons)
     `)
     .eq('id', courseId)
     .single();
 
-  if (!course) notFound();
+  if (!course) {
+    const fallbackCourse = DEMO_COURSES[courseId];
+    if (fallbackCourse) return <CourseDetailClient course={fallbackCourse} />;
+    notFound();
+  }
 
-  // Get student access for skills in this course
+  // Get student access for skills in this course (if authenticated)
   const skillIds = (course.skills || []).map((s: any) => s.id);
   let accessMap: Record<string, string> = {};
   let progressMap: Record<string, { total: number; completed: number }> = {};
   const lessonsBySkill: Record<string, any[]> = {};
 
   if (skillIds.length > 0) {
-    const { data: skillAccess } = await supabase
-      .from('student_skill_access')
-      .select('skill_id, status')
-      .eq('student_id', user!.id)
-      .in('skill_id', skillIds);
+    if (user) {
+      const { data: skillAccess } = await supabase
+        .from('student_skill_access')
+        .select('skill_id, status')
+        .eq('student_id', user.id)
+        .in('skill_id', skillIds);
 
-    (skillAccess || []).forEach(sa => {
-      accessMap[sa.skill_id] = sa.status;
-    });
+      (skillAccess || []).forEach(sa => {
+        accessMap[sa.skill_id] = sa.status;
+      });
+    }
 
     // Fetch lessons with metadata
     const { data: lessons } = await supabase
@@ -300,15 +352,18 @@ export default async function CourseDetailPage({
       .eq('is_active', true)
       .order('sort_order');
 
-    // Fetch completed lessons for current student
-    const { data: lessonProgress } = await supabase
-      .from('lesson_progress')
-      .select('lesson_id, skill_id, is_completed')
-      .eq('student_id', user!.id)
-      .in('skill_id', skillIds)
-      .eq('is_completed', true);
+    // Fetch completed lessons for current student (if logged in)
+    let completedLessonIds = new Set<string>();
+    if (user) {
+      const { data: lessonProgress } = await supabase
+        .from('lesson_progress')
+        .select('lesson_id, skill_id, is_completed')
+        .eq('student_id', user.id)
+        .in('skill_id', skillIds)
+        .eq('is_completed', true);
 
-    const completedLessonIds = new Set((lessonProgress || []).map(lp => lp.lesson_id));
+      completedLessonIds = new Set((lessonProgress || []).map(lp => lp.lesson_id));
+    }
 
     (lessons || []).forEach(l => {
       if (!lessonsBySkill[l.skill_id]) {

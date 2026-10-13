@@ -68,6 +68,8 @@ export interface Skill {
   difficulty: SkillDifficulty;
   is_active: boolean;
   completion_requirements: CompletionRequirements;
+  is_curriculum_complete?: boolean;
+  total_planned_lessons?: number | null;
   created_at: string;
   updated_at: string;
   // Relations

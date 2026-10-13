@@ -2,9 +2,37 @@ import { createClient } from '@/lib/supabase/server';
 import { Metadata } from 'next';
 import ExploreClient from './ExploreClient';
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vyat-v3.vercel.app';
+
 export const metadata: Metadata = {
-  title: 'Explore Skills — Vyat',
-  description: 'Browse all available skills across branches and courses.',
+  title: 'Courses for CSE: Placements, Core Subjects, DSA, Web Dev & AI Learning Catalog | Vyat',
+  description: 'Explore verified courses and skills for CSE & engineering students in India. Master campus placements, core subjects (OS, DBMS, Computer Networks), Data Structures & Algorithms (DSA), Full-Stack Web Development, and AI learning.',
+  keywords: [
+    'Courses for CSE',
+    'CSE students India',
+    'Placements preparation CSE',
+    'Core subjects CSE',
+    'DSA courses for placements',
+    'Web Dev courses for CSE',
+    'AI learning engineering',
+    'B.Tech CSE courses',
+    'Engineering placement catalog',
+  ],
+  alternates: {
+    canonical: `${BASE_URL}/explore`,
+  },
+  openGraph: {
+    title: 'Courses for CSE: Placements, Core Subjects, DSA, Web Dev & AI Learning Catalog | Vyat',
+    description: 'Explore verified courses and skills for CSE & engineering students in India. Master campus placements, core CS, DSA, Web Dev, and AI learning.',
+    url: `${BASE_URL}/explore`,
+    type: 'website',
+    siteName: 'Vyat',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Courses for CSE: Placements, Core Subjects, DSA, Web Dev & AI Learning Catalog | Vyat',
+    description: 'Explore verified courses and skills for CSE & engineering students in India. Master campus placements, core CS, DSA, Web Dev, and AI learning.',
+  },
 };
 
 export default async function ExplorePage() {

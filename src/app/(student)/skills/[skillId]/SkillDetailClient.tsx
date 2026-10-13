@@ -32,9 +32,13 @@ export default function SkillDetailClient({
   questions,
   certificate,
 }: Props) {
+  const isCurriculumComplete = skill.is_curriculum_complete ?? false;
+  const totalTargetLessons = (skill.total_planned_lessons && skill.total_planned_lessons > lessons.length)
+    ? skill.total_planned_lessons
+    : lessons.length;
   const completedLessons = lessonProgress.filter(lp => lp.is_completed).length;
-  const progress = calculateProgress(completedLessons, lessons.length);
-  const isCompleted = access?.status === 'completed';
+  const progress = calculateProgress(completedLessons, totalTargetLessons);
+  const isCompleted = isCurriculumComplete && (access?.status === 'completed' || (totalTargetLessons > 0 && completedLessons >= totalTargetLessons));
 
   const isLessonCompleted = (lessonId: string) =>
     lessonProgress.some(lp => lp.lesson_id === lessonId && lp.is_completed);
@@ -75,9 +79,19 @@ export default function SkillDetailClient({
               
               {access && (
                 <span className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black tracking-widest uppercase text-white border backdrop-blur-md shadow-sm ${
-                  isCompleted ? 'bg-emerald-500/90 border-emerald-400/50' : 'bg-blue-500/90 border-blue-400/50'
+                  isCompleted 
+                    ? 'bg-emerald-500/90 border-emerald-400/50' 
+                    : !isCurriculumComplete 
+                      ? 'bg-indigo-500/90 border-indigo-400/50'
+                      : 'bg-blue-500/90 border-blue-400/50'
                 }`}>
-                  {isCompleted ? <><CheckCircle2 size={14} strokeWidth={2.5} /> Completed</> : 'Active'}
+                  {isCompleted ? (
+                    <><CheckCircle2 size={14} strokeWidth={2.5} /> Completed</>
+                  ) : !isCurriculumComplete ? (
+                    <><Clock size={14} strokeWidth={2.5} /> Ongoing · Daily Release</>
+                  ) : (
+                    'Active'
+                  )}
                 </span>
               )}
 
@@ -106,7 +120,12 @@ export default function SkillDetailClient({
             <div className="flex flex-wrap items-center gap-4 mt-2 text-sm font-bold text-slate-800">
               <div className="flex items-center gap-2.5 bg-white px-5 py-2.5 rounded-2xl shadow-sm">
                 <BookOpen size={18} className="text-[#3b82f6]" strokeWidth={2.5} />
-                <span>{lessons.length} Lessons</span>
+                <span>
+                  {totalTargetLessons} Lessons
+                  {!isCurriculumComplete && skill.total_planned_lessons && lessons.length < totalTargetLessons
+                    ? ` (${lessons.length} uploaded)`
+                    : ''}
+                </span>
               </div>
               <div className="flex items-center gap-2.5 bg-white px-5 py-2.5 rounded-2xl shadow-sm">
                 <HelpCircle size={18} className="text-[#8b5cf6]" strokeWidth={2.5} />
@@ -126,7 +145,12 @@ export default function SkillDetailClient({
                 <div className="flex items-center justify-between text-sm mb-3">
                   <span className="font-bold text-white/90 uppercase tracking-wider text-xs">Progress</span>
                   <span className="font-bold text-white">
-                    {completedLessons}/{lessons.length} lessons · {progress}%
+                    {completedLessons}/{totalTargetLessons} lessons · {progress}%
+                    {!isCurriculumComplete && (
+                      <span className="ml-2 text-xs font-normal text-white/80">
+                        (Daily uploads in progress)
+                      </span>
+                    )}
                   </span>
                 </div>
                 <div className="w-full bg-white/20 rounded-full h-3 backdrop-blur-sm overflow-hidden">
@@ -142,7 +166,7 @@ export default function SkillDetailClient({
           {/* Certificate status */}
           {certificate && (
             <div className="text-right shrink-0">
-              {certificate.status === 'unlocked' ? (
+              {isCurriculumComplete && certificate.status === 'unlocked' ? (
                 <div className="inline-flex flex-col items-center gap-3 p-5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md">
                   <Award size={32} className="text-amber-300 drop-shadow-md" />
                   <p className="text-sm font-bold text-white">Certificate Available</p>
@@ -151,9 +175,14 @@ export default function SkillDetailClient({
                   </button>
                 </div>
               ) : (
-                <div className="inline-flex flex-col items-center gap-2 p-5 rounded-2xl bg-black/10 border border-white/10 backdrop-blur-md">
-                  <Lock size={28} className="text-white/50" />
-                  <p className="text-xs font-medium text-white/70">Complete to unlock</p>
+                <div className="inline-flex flex-col items-center gap-2 p-5 rounded-2xl bg-black/20 border border-white/20 backdrop-blur-md max-w-[220px] text-center">
+                  <Lock size={26} className="text-white/60" />
+                  <p className="text-xs font-bold text-white">Certificate Locked</p>
+                  <p className="text-[11px] font-medium text-white/70 leading-snug">
+                    {!isCurriculumComplete
+                      ? `Course ongoing. Certificate unlocks once all ${totalTargetLessons} lessons are completed.`
+                      : 'Complete all required lessons to unlock your certificate.'}
+                  </p>
                 </div>
               )}
             </div>

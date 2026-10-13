@@ -103,6 +103,8 @@ CREATE TABLE IF NOT EXISTS skills (
   difficulty TEXT DEFAULT 'beginner' CHECK (difficulty IN ('beginner', 'intermediate', 'advanced')),
   is_active BOOLEAN NOT NULL DEFAULT true,
   completion_requirements JSONB DEFAULT '{"min_lessons_completed_pct": 100, "min_quiz_score_pct": null, "quiz_required": false}'::jsonb,
+  is_curriculum_complete BOOLEAN NOT NULL DEFAULT false,
+  total_planned_lessons INTEGER DEFAULT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   UNIQUE(course_id, slug)
@@ -603,21 +605,43 @@ DECLARE
   v_quiz_required BOOLEAN;
   v_min_quiz_pct NUMERIC;
   v_best_quiz_score NUMERIC;
+  v_is_curriculum_complete BOOLEAN;
+  v_total_planned_lessons INTEGER;
   v_is_complete BOOLEAN := false;
 BEGIN
   IF NEW.is_completed = true AND (OLD.is_completed IS NULL OR OLD.is_completed = false) THEN
     v_skill_id := NEW.skill_id;
 
-    SELECT completion_requirements INTO v_requirements
+    -- Fetch skill configuration
+    SELECT 
+      completion_requirements, 
+      COALESCE(is_curriculum_complete, false),
+      total_planned_lessons
+    INTO 
+      v_requirements, 
+      v_is_curriculum_complete,
+      v_total_planned_lessons
     FROM skills WHERE id = v_skill_id;
+
+    -- GUARD 1: If curriculum is still ongoing (daily upload in progress), do NOT auto-complete or unlock certificates!
+    IF NOT v_is_curriculum_complete THEN
+      RETURN NEW;
+    END IF;
 
     v_min_pct := COALESCE((v_requirements->>'min_lessons_completed_pct')::numeric, 100);
     v_quiz_required := COALESCE((v_requirements->>'quiz_required')::boolean, false);
     v_min_quiz_pct := (v_requirements->>'min_quiz_score_pct')::numeric;
 
+    -- Count actual required active lessons uploaded
     SELECT COUNT(*) INTO v_total_required
     FROM lessons WHERE skill_id = v_skill_id AND is_required = true AND is_active = true;
 
+    -- GUARD 2: If admin specified total planned lessons (e.g. 30 lessons planned), use the higher target
+    IF v_total_planned_lessons IS NOT NULL AND v_total_planned_lessons > v_total_required THEN
+      v_total_required := v_total_planned_lessons;
+    END IF;
+
+    -- Count lessons completed by this student
     SELECT COUNT(*) INTO v_completed
     FROM lesson_progress lp
     JOIN lessons l ON l.id = lp.lesson_id
@@ -633,6 +657,7 @@ BEGIN
       v_is_complete := true;
     END IF;
 
+    -- Optional quiz evaluation
     IF v_is_complete AND v_quiz_required AND v_min_quiz_pct IS NOT NULL THEN
       SELECT MAX(
         CASE WHEN total_marks > 0 THEN (score::numeric / total_marks * 100) ELSE 0 END

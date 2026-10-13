@@ -64,7 +64,7 @@ export default async function CertificatesPage() {
     .from('certificates')
     .select(`
       *,
-      skill:skills(name, course:courses(name, branch:branches(name)))
+      skill:skills(name, is_curriculum_complete, total_planned_lessons, course:courses(name, branch:branches(name)))
     `)
     .eq('student_id', userId)
     .order('created_at', { ascending: false });

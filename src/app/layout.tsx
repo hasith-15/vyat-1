@@ -25,10 +25,116 @@ const jetbrains = JetBrains_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://vyat-v3.vercel.app';
+
 export const metadata: Metadata = {
-  title: "Vyat — Master Computer Science, One Skill at a Time",
-  description: "A premium learning platform for CSE students. Master core CS, AI/ML, Data Science, and Cyber Security with structured skill-based courses, video lessons, hands-on practice, and verified certificates.",
-  keywords: ["CSE", "Computer Science", "AI", "Machine Learning", "Data Science", "Cyber Security", "Learning Platform", "Online Courses"],
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: "Courses for CSE Students in India — Placements, Core Subjects, DSA, Web Dev & AI | Vyat",
+    template: "%s | Vyat",
+  },
+  description: "India's premier learning platform for CSE & engineering students. Master campus placements, core CS subjects (OS, DBMS, Computer Networks), Data Structures & Algorithms (DSA), Full-Stack Web Development, and AI learning with structured daily lessons and verified certificates.",
+  keywords: [
+    "Courses for CSE",
+    "CSE students India",
+    "Engineering students India",
+    "Campus placements preparation",
+    "Core subjects CSE",
+    "Operating Systems DBMS Computer Networks",
+    "Data Structures and Algorithms",
+    "DSA for placements",
+    "Web Dev courses for CSE",
+    "Full stack web development",
+    "AI learning for engineering students",
+    "Artificial Intelligence Machine Learning CSE",
+    "B.Tech CSE courses",
+    "Engineering placements India",
+    "Technical interview preparation",
+    "Computer Science Engineering syllabus",
+    "Vyat learning platform",
+  ],
+  authors: [{ name: "Vyat Learning" }],
+  creator: "Vyat",
+  publisher: "Vyat",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
+  openGraph: {
+    title: "Courses for CSE Students in India — Placements, Core Subjects, DSA, Web Dev & AI | Vyat",
+    description: "India's dedicated learning hub for CSE & engineering students. Master campus placements, core CS subjects (OS, DBMS, Networks), DSA, Web Dev, and AI learning with daily drip lessons.",
+    url: BASE_URL,
+    siteName: "Vyat",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Courses for CSE Students in India — Placements, Core Subjects, DSA, Web Dev & AI | Vyat",
+    description: "Master campus placements, core CS subjects (OS, DBMS, Networks), DSA, Full-Stack Web Dev, and AI learning with verified certificates.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "@id": `${BASE_URL}/#organization`,
+      "name": "Vyat — Courses for CSE & Engineering Students",
+      "url": BASE_URL,
+      "logo": `${BASE_URL}/favicon.ico`,
+      "description": "Comprehensive online learning platform for Computer Science & Engineering students in India. Specialized in Campus Placements, Core Subjects (Operating Systems, DBMS, Computer Networks), DSA, Full-Stack Web Development, and AI Learning.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "audience": {
+        "@type": "EducationalAudience",
+        "educationalRole": "student",
+        "audienceType": "CSE & Engineering Students in India"
+      },
+      "knowsAbout": [
+        "Computer Science Engineering",
+        "Campus Placements Preparation",
+        "Data Structures and Algorithms (DSA)",
+        "Core Subjects (OS, DBMS, Computer Networks, OOP)",
+        "Full-Stack Web Development",
+        "AI Learning and Machine Learning"
+      ],
+      "educationalCredentialAwarded": "Verified Certificate of Skill Completion"
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${BASE_URL}/#website`,
+      "url": BASE_URL,
+      "name": "Vyat",
+      "description": "Courses for CSE Students in India — Placements, Core Subjects, DSA, Web Dev & AI Learning",
+      "publisher": {
+        "@id": `${BASE_URL}/#organization`
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${BASE_URL}/explore?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
 };
 
 export default function RootLayout({
@@ -43,6 +149,12 @@ export default function RootLayout({
       className={`${jakarta.variable} ${inter.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <ThemeProvider>
           <ToastProvider>

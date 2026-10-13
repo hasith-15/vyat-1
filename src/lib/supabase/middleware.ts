@@ -46,8 +46,19 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const demoRole = request.cookies.get('demo_role')?.value;
 
-  // Public routes that don't need auth
-  const isPublicRoute = path === '/' || path === '/login' || path.startsWith('/api/certificates/verify') || path.startsWith('/api/auth/demo');
+  const isLessonRoute = path.includes('/lessons/');
+  // Public routes that don't need auth (accessible to search engine crawlers and guests)
+  const isPublicRoute =
+    !isLessonRoute &&
+    (path === '/' ||
+      path === '/login' ||
+      path === '/explore' ||
+      path === '/sitemap.xml' ||
+      path === '/robots.txt' ||
+      path.startsWith('/classes') ||
+      path.startsWith('/skills') ||
+      path.startsWith('/api/certificates/verify') ||
+      path.startsWith('/api/auth/demo'));
 
   const isAuthenticated = !!user || !!demoRole;
 
@@ -59,8 +70,8 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (isAuthenticated && (path === '/' || path === '/login')) {
-    // Logged in, redirect to appropriate dashboard
+  if (isAuthenticated && path === '/login') {
+    // Logged in visiting /login, redirect to appropriate dashboard
     let role = demoRole;
     if (!role && user) {
       const { data: profile } = await supabase

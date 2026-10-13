@@ -9,13 +9,14 @@ import EmptyState from '@/components/ui/EmptyState';
 import { Award, Lock, Download, CheckCircle2, ExternalLink } from 'lucide-react';
 
 interface Props {
-  certificates: (Certificate & { skill: { name: string; course: { name: string; branch: { name: string } } } })[];
+  certificates: (Certificate & { skill: { name: string; is_curriculum_complete?: boolean; total_planned_lessons?: number | null; course: { name: string; branch: { name: string } } } })[];
   userName: string;
 }
 
 export default function CertificatesClient({ certificates, userName }: Props) {
-  const unlocked = certificates.filter(c => c.status === 'unlocked');
-  const locked = certificates.filter(c => c.status === 'generated');
+  const isCertReady = (c: any) => c.status === 'unlocked' && (c.skill?.is_curriculum_complete ?? false);
+  const unlocked = certificates.filter(isCertReady);
+  const locked = certificates.filter(c => !isCertReady(c));
 
   if (certificates.length === 0) {
     return (
@@ -90,7 +91,9 @@ export default function CertificatesClient({ certificates, userName }: Props) {
                       {cert.skill?.name}
                     </p>
                     <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                      Complete the skill to unlock
+                      {cert.skill?.is_curriculum_complete === false
+                        ? 'Course ongoing (daily uploads) · Unlocks after full completion'
+                        : 'Complete the skill to unlock'}
                     </p>
                   </div>
                 </div>

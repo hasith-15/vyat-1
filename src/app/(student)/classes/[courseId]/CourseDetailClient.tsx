@@ -26,6 +26,8 @@ export interface SkillItem {
   estimated_hours?: number | null;
   sort_order: number;
   is_active: boolean;
+  is_curriculum_complete?: boolean;
+  total_planned_lessons?: number | null;
   _lessonCount: number;
   _completedLessons: number;
   _status: 'active' | 'completed' | 'expired' | null;
@@ -85,8 +87,11 @@ export default function CourseDetailClient({ course }: Props) {
   };
 
   const totalSkills = course.skills.length;
+  const isAllCurriculumComplete = course.skills.length > 0 && course.skills.every(s => s.is_curriculum_complete ?? false);
   const totalLessons = course.skills.reduce(
-    (acc, s) => acc + (s._lessonCount || s.lessons?.length || 0),
+    (acc, s) => acc + (s.total_planned_lessons && s.total_planned_lessons > (s._lessonCount || s.lessons?.length || 0)
+      ? s.total_planned_lessons
+      : (s._lessonCount || s.lessons?.length || 0)),
     0
   );
   const totalCompletedLessons = course.skills.reduce(
@@ -192,7 +197,7 @@ export default function CourseDetailClient({ course }: Props) {
           </div>
 
           <div className="flex-shrink-0 w-full lg:w-auto">
-            {overallProgress === 100 ? (
+            {overallProgress === 100 && isAllCurriculumComplete ? (
               <div className="w-full lg:w-auto inline-flex items-center justify-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-8 py-4 rounded-[16px] font-bold border border-emerald-200 dark:border-emerald-800/50 shadow-sm text-base">
                 <Award size={22} strokeWidth={2.5} /> Course Completed!
               </div>
@@ -242,8 +247,12 @@ export default function CourseDetailClient({ course }: Props) {
                 const skillLessons = skill.lessons || [];
                 const lessonCount = skill._lessonCount || skillLessons.length;
                 const completedLessons = skill._completedLessons || skillLessons.filter(l => l.is_completed).length;
-                const skillProgress = lessonCount > 0 ? Math.round((completedLessons / lessonCount) * 100) : 0;
-                const isCompleted = skill._status === 'completed' || (lessonCount > 0 && completedLessons === lessonCount);
+                const isCurriculumDone = skill.is_curriculum_complete ?? false;
+                const plannedTotal = (skill.total_planned_lessons && skill.total_planned_lessons > lessonCount)
+                  ? skill.total_planned_lessons
+                  : lessonCount;
+                const skillProgress = plannedTotal > 0 ? Math.round((completedLessons / plannedTotal) * 100) : 0;
+                const isCompleted = isCurriculumDone && (skill._status === 'completed' || (plannedTotal > 0 && completedLessons >= plannedTotal));
                 const isExpanded = !!expandedSkills[skill.id];
 
                 const nextLesson = skillLessons.find(l => !l.is_completed) || skillLessons[0];
@@ -282,9 +291,13 @@ export default function CourseDetailClient({ course }: Props) {
                               {skill.name}
                             </h3>
 
-                            {isCompleted && (
+                            {isCompleted ? (
                               <span className="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-xs px-3.5 py-1.5 rounded-full font-black uppercase tracking-wider">
                                 Completed
+                              </span>
+                            ) : !isCurriculumDone && (
+                              <span className="bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 text-xs px-3.5 py-1.5 rounded-full font-black uppercase tracking-wider">
+                                Ongoing · Daily Release
                               </span>
                             )}
                           </div>
@@ -297,7 +310,7 @@ export default function CourseDetailClient({ course }: Props) {
                           <div className="flex flex-wrap gap-4 text-sm font-bold text-slate-600 dark:text-slate-300 pt-1">
                             <span className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/60 px-4 py-2 rounded-xl border border-slate-100 dark:border-slate-700/50">
                               <Video size={16} style={{ color: accentColor }} strokeWidth={2.5} />
-                              {lessonCount} Lessons
+                              {plannedTotal} Lessons {skill.total_planned_lessons && lessonCount < plannedTotal ? `(${lessonCount} uploaded)` : ''}
                             </span>
                             {skill.estimated_hours && (
                               <span className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/60 px-4 py-2 rounded-xl border border-slate-100 dark:border-slate-700/50">
@@ -307,7 +320,7 @@ export default function CourseDetailClient({ course }: Props) {
                             )}
                             <span className="flex items-center gap-2 bg-emerald-50/50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 px-4 py-2 rounded-xl border border-emerald-100 dark:border-emerald-800/30">
                               <CheckCircle2 size={16} className="text-emerald-500" strokeWidth={2.5} />
-                              {completedLessons}/{lessonCount} Watched
+                              {completedLessons}/{plannedTotal} Watched
                             </span>
                           </div>
                         </div>

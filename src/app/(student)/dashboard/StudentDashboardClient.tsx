@@ -763,15 +763,26 @@ export default function StudentDashboardClient({
 
   // Stable progress calculation callback
   const getSkillProgress = useCallback((skillId: string) => {
-    const totalLessons = lessonCountsMap[skillId] || 0;
+    const sa = skillAccess.find(a => a.skill_id === skillId);
+    const targetPlanned = sa?.skill?.total_planned_lessons;
+    const totalLessons = (targetPlanned && targetPlanned > (lessonCountsMap[skillId] || 0))
+      ? targetPlanned
+      : (lessonCountsMap[skillId] || 0);
     const completedLessons = completedLessonsBySkill[skillId] || 0;
     return calculateProgress(completedLessons, totalLessons);
-  }, [lessonCountsMap, completedLessonsBySkill]);
+  }, [lessonCountsMap, completedLessonsBySkill, skillAccess]);
 
   // Overall progress calculations
   const totalLessonsAll = useMemo(() => {
-    return lessonCounts.reduce((sum, lc) => sum + lc.count, 0);
-  }, [lessonCounts]);
+    const sum = skillAccess.reduce((acc, sa) => {
+      const actualCount = lessonCountsMap[sa.skill_id] || 0;
+      const targetCount = (sa.skill?.total_planned_lessons && sa.skill.total_planned_lessons > actualCount)
+        ? sa.skill.total_planned_lessons
+        : actualCount;
+      return acc + targetCount;
+    }, 0);
+    return sum > 0 ? sum : lessonCounts.reduce((sum, lc) => sum + lc.count, 0);
+  }, [skillAccess, lessonCountsMap, lessonCounts]);
 
   const completedLessonsAll = useMemo(() => {
     return lessonProgress.filter(lp => lp.is_completed).length;
