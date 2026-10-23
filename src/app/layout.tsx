@@ -145,7 +145,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="dark"
+      data-theme="light"
       className={`${jakarta.variable} ${inter.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
@@ -155,7 +155,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased bg-[#07090e] text-slate-100 selection:bg-blue-500/20 selection:text-blue-200">
+      <body className="font-sans antialiased bg-[#F8FAFC] text-slate-900 selection:bg-sky-500/20 selection:text-sky-900">
         <ThemeProvider>
           <ToastProvider>
             {children}

@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import {
-  BookOpen, Award, CheckCircle2, ArrowRight, ShieldCheck,
+  BookOpen, Award, CheckCircle2, ArrowRight,
   Cpu, Terminal, Sparkles, ChevronRight, Briefcase,
-  Globe, Code2, GraduationCap, Star, Layers, Check
+  Globe, GraduationCap, Check
 } from 'lucide-react';
 
 interface Props {
@@ -48,86 +48,86 @@ const CURRICULUM_PILLARS = [
   {
     id: 'placements',
     title: 'Campus Placements & Interview Prep',
-    tag: 'Placement Ready',
+    hook: 'Master high-yield coding rounds and viva interviews for Indian product companies and top recruiters.',
+    category: 'Placement Ready',
+    badgeType: 'yellow',
     icon: Briefcase,
-    description: 'Master on-campus and off-campus recruitment rounds for Indian product companies, tech giants, and high-growth startups.',
     highlights: [
-      'Coding assessment rounds & LeetCode patterns',
-      'Technical interview viva & system design fundamentals',
-      'Resume-worthy project guidance & GitHub portfolio',
-      'Aptitude & quantitative problem-solving strategies'
+      'High-frequency LeetCode interview problem patterns',
+      'Technical viva questions & core system design fundamentals',
+      'Resume project walkthroughs & GitHub portfolio guidance'
     ],
-    badge: 'Tier-1 & Tier-2 Placement Ready'
+    tag: 'Tier-1 Placements'
   },
   {
     id: 'core-subjects',
     title: 'Core Subjects (OS, DBMS, Networks, OOP)',
-    tag: 'University + GATE',
+    hook: 'Score top SGPA in semester exams and master fundamental theory tested in tech interview viva rounds.',
+    category: 'University + GATE',
+    badgeType: 'sky',
     icon: Cpu,
-    description: 'Score top SGPA in semester exams and confidently answer technical viva questions asked by tech recruiters.',
     highlights: [
-      'Operating Systems: Processes, CPU scheduling, paging & virtual memory',
-      'DBMS: SQL queries, relational algebra, ACID & normalization',
-      'Computer Networks: OSI & TCP/IP stack, routing protocols, sockets',
-      'OOP: Inheritance, polymorphism, and design principles in C++/Java'
+      'OS: Process scheduling, paging & virtual memory',
+      'DBMS: SQL queries, normalization, ACID properties & indexing',
+      'Networks & OOP: TCP/IP stack & C++/Java design patterns'
     ],
-    badge: 'Matches AKTU, VTU, Anna Univ & JNTU Syllabi'
+    tag: 'AKTU · VTU · JNTU Syllabi'
   },
   {
     id: 'dsa',
     title: 'Data Structures & Algorithms (DSA)',
-    tag: 'Problem Solving',
+    hook: 'Build unshakeable intuition in algorithmic complexity and problem-solving patterns.',
+    category: 'Problem Solving',
+    badgeType: 'sky',
     icon: Terminal,
-    description: 'Build unshakeable intuition in data structures and algorithmic complexity to solve tough coding problems.',
     highlights: [
-      'Arrays, Strings, Linked Lists, Stacks & Queues',
-      'Binary Trees, BST, Graphs, BFS/DFS & Dijkstra',
-      'Dynamic Programming, Recursion & Greedy Algorithms',
+      'Linear & non-linear structures: Trees, Graphs & Heaps',
+      'Dynamic Programming, Greedy & Recursion blueprints',
       'Optimized implementations in C++, Java, and Python'
     ],
-    badge: '100+ Curated Placement Problems'
+    tag: '100+ Curated Problems'
   },
   {
     id: 'web-dev',
     title: 'Full-Stack Web Development',
-    tag: 'Modern Tech Stack',
+    hook: 'Go from frontend fundamentals to scalable backend architecture with production-grade code.',
+    category: 'Modern Tech Stack',
+    badgeType: 'yellow',
     icon: Globe,
-    description: 'Go from frontend fundamentals to scalable backend architecture. Build production apps recruiters love.',
     highlights: [
-      'Modern JavaScript (ES6+), TypeScript & responsive UI design',
-      'React & Next.js frontend architecture with modern state management',
-      'Node.js, Express, REST APIs & secure authentication workflows',
-      'PostgreSQL, MongoDB, Supabase & cloud production deployment'
+      'Modern TypeScript, React 19 & Next.js App Router',
+      'Node.js, Express, REST APIs & JWT authentication',
+      'PostgreSQL, Supabase & cloud production deployments'
     ],
-    badge: 'Ship 3 Full-Stack Capstones'
+    tag: 'Ship Production Apps'
   },
   {
     id: 'ai-learning',
-    title: 'AI Learning & Machine Learning',
-    tag: 'Cutting-Edge',
+    title: 'Applied AI & Machine Learning',
+    hook: 'Code-first AI curriculum built for CSE undergraduates from Python math to modern LLMs.',
+    category: 'Cutting-Edge',
+    badgeType: 'sky',
     icon: Sparkles,
-    description: 'Code-first AI education built for CSE undergraduates. Master mathematical foundations and modern generative AI.',
     highlights: [
-      'Python for AI & Data Science: NumPy, Pandas & Matplotlib',
-      'Machine Learning: Regression, classification, clustering & Scikit-learn',
-      'Deep Learning & Neural Networks: CNNs, transformers & PyTorch',
-      'Generative AI: LLM prompting, embeddings, and RAG pipelines'
+      'Python for AI: NumPy, Pandas, Scikit-learn & data pipelines',
+      'Neural networks, Deep Learning & PyTorch foundations',
+      'Generative AI: Embeddings, Vector DBs & RAG pipelines'
     ],
-    badge: 'Build Intelligent AI Apps'
+    tag: 'Build Intelligent Apps'
   },
   {
     id: 'systems-scale',
-    title: 'Full B.Tech Roadmap & Scale',
-    tag: 'Systems & Scale',
+    title: 'Full B.Tech 4-Year Roadmap',
+    hook: 'The complete structured roadmap designed to make you a top 1% engineer in your batch.',
+    category: 'Systems & Scale',
+    badgeType: 'yellow',
     icon: GraduationCap,
-    description: 'All-in-one comprehensive engineering track designed to take you from foundational CS concepts to industry-grade software.',
     highlights: [
       '1 Video a day habit system with zero binge burnout',
-      'Interactive quizzes & concept checkpoints for every module',
-      'System design, Docker containerization & microservices',
-      'LinkedIn verifiable credentials accepted by tech recruiters'
+      'Interactive concept checkpoints for every single lesson',
+      'LinkedIn verifiable credentials with anti-cheat protection'
     ],
-    badge: 'Complete 4-Year B.Tech Journey'
+    tag: 'Complete 4-Year Journey'
   }
 ];
 
@@ -152,7 +152,7 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
       '@type': 'Course',
       'position': index + 1,
       'name': p.title,
-      'description': p.description,
+      'description': p.hook,
       'provider': {
         '@type': 'Organization',
         'name': 'Vyat',
@@ -162,7 +162,7 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#07090e] text-slate-100 font-sans selection:bg-blue-500/30 selection:text-blue-200 flex flex-col antialiased overflow-x-hidden">
+    <div className="min-h-screen w-full bg-[#F8FAFC] text-slate-900 font-sans selection:bg-sky-500/20 selection:text-sky-900 flex flex-col antialiased overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -172,39 +172,39 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
         dangerouslySetInnerHTML={{ __html: JSON.stringify(courseListSchema) }}
       />
 
-      {/* ── TOP NAVIGATION ── */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#07090e]/90 border-b border-slate-800/80 transition-colors w-full">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 h-20 flex items-center justify-between">
+      {/* ── 1. NAVBAR (GLASSMORPHISM) ── */}
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-white/85 border-b border-slate-200/80 transition-all w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group" id="nav-brand-logo">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:scale-105 transition-transform">
-              <BookOpen size={20} className="text-white" />
+            <div className="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white shadow-sm shadow-sky-600/25 group-hover:scale-105 transition-transform">
+              <BookOpen size={20} />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-xl tracking-tight text-slate-100">
+              <span className="font-extrabold text-xl tracking-tight text-[#0F172A]">
                 Vyat
               </span>
-              <span className="text-[10px] uppercase font-mono font-semibold tracking-wider text-slate-400 -mt-1">
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-500 -mt-1">
                 Courses for CSE
               </span>
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
-            <a href="#curriculum" className="hover:text-white transition-colors">Courses &amp; Pillars</a>
-            <a href="#engineering-context" className="hover:text-white transition-colors">Why Engineering Students</a>
-            <a href="#advantages" className="hover:text-white transition-colors">1 Video / Day Habit</a>
-            <a href="#credentials" className="hover:text-white transition-colors">Verified Credentials</a>
-            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
+          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+            <a href="#curriculum" className="hover:text-sky-600 transition-colors">Courses &amp; Pillars</a>
+            <a href="#engineering-context" className="hover:text-sky-600 transition-colors">Why Engineering Students</a>
+            <a href="#advantages" className="hover:text-sky-600 transition-colors">1 Video / Day Habit</a>
+            <a href="#credentials" className="hover:text-sky-600 transition-colors">Verified Credentials</a>
+            <a href="#faq" className="hover:text-sky-600 transition-colors">FAQ</a>
           </nav>
 
           <div className="flex items-center gap-3">
             <Link href="/login" id="nav-login-btn">
-              <button className="px-4 py-2.5 text-sm font-semibold text-slate-300 hover:text-white rounded-xl hover:bg-slate-800/60 transition-colors">
+              <button className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition-colors">
                 Sign In
               </button>
             </Link>
             <Link href="/explore" id="nav-explore-btn">
-              <button className="px-5 py-2.5 text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02]">
+              <button className="px-5 py-2.5 text-sm font-semibold bg-sky-600 hover:bg-sky-500 text-white rounded-xl shadow-sm hover:shadow transition-all hover:scale-[1.02]">
                 Explore Catalog
               </button>
             </Link>
@@ -212,147 +212,140 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
         </div>
       </header>
 
-      <main className="w-full min-h-screen bg-[#07090e] text-slate-100 flex flex-col items-center">
-        {/* ── HERO SECTION (SEO H1 & CORE INTENT) ── */}
-        <section className="w-full border-b border-slate-800/60 py-20 lg:py-28 relative overflow-hidden">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 text-center flex flex-col items-center">
+      <main className="w-full flex flex-col items-center">
+        {/* ── 2. HERO SECTION ── */}
+        <section className="w-full pt-14 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28 border-b border-slate-200/80 bg-gradient-to-b from-white via-[#F8FAFC] to-[#F1F5F9] relative overflow-hidden">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
             
-            {/* National Target Pill Tag */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider bg-slate-800/80 border border-slate-700 text-slate-300 mb-8 shadow-sm">
-              <span className="text-base leading-none">🇮🇳</span>
-              <span>#1 Learning Platform for CSE &amp; Engineering Students in India</span>
+            {/* Pill Tag */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#FEF08A] border border-amber-300 text-amber-950 shadow-sm mb-6">
+              <span>⚡</span>
+              <span>#1 Learning Platform for CSE Students in India</span>
             </div>
 
-            {/* Targeted SEO Primary H1 */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-100 max-w-5xl leading-[1.15] mb-6">
-              Courses for CSE:{' '}
-              <span className="text-slate-100">
-                Placements, Core Subjects, DSA, Web Dev &amp; AI Learning
-              </span>
+            {/* Main H1 */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F172A] max-w-4xl mx-auto leading-[1.12] mb-6">
+              Master Computer Science.
+              <span className="block mt-2 text-sky-600">Ace Placements &amp; Semester Exams.</span>
             </h1>
 
-            {/* Lead Keyword-Rich Description */}
-            <p className="text-base sm:text-lg text-slate-400 max-w-3xl leading-relaxed mb-8 font-normal">
-              Built specifically for Indian B.Tech / BE engineering students. Fast-track campus placements and semester exams with structured daily drip lessons in <strong className="text-slate-200">Core Subjects (OS, DBMS, Networks)</strong>, <strong className="text-slate-200">DSA</strong>, <strong className="text-slate-200">Full-Stack Web Dev</strong>, and <strong className="text-slate-200">AI Learning</strong>.
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8 font-normal">
+              Built specifically for Indian B.Tech / BE engineering students. Fast-track campus placements and university exams with structured daily drip lessons in Core CS, DSA, Web Dev, and AI.
             </p>
 
-            {/* Interactive Pillar Chips */}
-            <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl mb-10">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono uppercase bg-slate-800/80 border border-slate-700 text-slate-300">
-                <Briefcase size={13} className="text-slate-400" /> Campus Placements
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono uppercase bg-slate-800/80 border border-slate-700 text-slate-300">
-                <Cpu size={13} className="text-slate-400" /> Core Subjects (OS, DBMS, CN)
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono uppercase bg-slate-800/80 border border-slate-700 text-slate-300">
-                <Terminal size={13} className="text-slate-400" /> DSA in C++ / Java / Python
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono uppercase bg-slate-800/80 border border-slate-700 text-slate-300">
-                <Globe size={13} className="text-slate-400" /> Full-Stack Web Dev
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono uppercase bg-slate-800/80 border border-slate-700 text-slate-300">
-                <Sparkles size={13} className="text-slate-400" /> AI &amp; Machine Learning
-              </span>
-            </div>
-
-            {/* Action Buttons */}
+            {/* Dual CTAs */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
               <Link href="/explore" className="w-full sm:w-auto" id="hero-cta-explore">
-                <button className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:scale-105 flex items-center justify-center gap-2 text-sm sm:text-base">
+                <button className="w-full sm:w-auto px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-xl shadow-md shadow-sky-600/20 transition-all hover:scale-[1.02] flex items-center justify-center gap-2 text-base">
                   Browse All CSE Courses
                   <ArrowRight size={18} />
                 </button>
               </Link>
               <Link href="/login" className="w-full sm:w-auto" id="hero-cta-login">
-                <button className="w-full sm:w-auto px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2 text-sm sm:text-base">
+                <button className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold rounded-xl border border-slate-200 shadow-sm transition-all flex items-center justify-center gap-2 text-base">
                   Student Sign In
                 </button>
               </Link>
             </div>
 
-            {/* Trust Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 mt-16 pt-10 border-t border-slate-800/80 w-full max-w-4xl text-left">
-              <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-100 font-mono">5 Pillars</p>
-                <p className="text-xs sm:text-sm font-medium text-slate-400 mt-1">Placements, Core, DSA, Web &amp; AI</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-100 font-mono">1 Video/Day</p>
-                <p className="text-xs sm:text-sm font-medium text-slate-400 mt-1">Drip Habit Learning</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-100 font-mono">Semester + Job</p>
-                <p className="text-xs sm:text-sm font-medium text-slate-400 mt-1">Dual Syllabus Coverage</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-100 font-mono">Verified</p>
-                <p className="text-xs sm:text-sm font-medium text-slate-400 mt-1">Anti-Cheat Credentials</p>
+            {/* Dedicated Metrics Bar */}
+            <div className="w-full max-w-5xl mx-auto mt-14 sm:mt-16 p-6 sm:p-8 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-left">
+                <div className="md:border-r border-slate-100 last:border-r-0 pr-4">
+                  <p className="text-3xl font-black text-[#0F172A] tracking-tight">5 Pillars</p>
+                  <p className="text-sm text-slate-500 font-medium mt-1">Placements, DSA, OS, Web &amp; AI</p>
+                </div>
+                <div className="md:border-r border-slate-100 last:border-r-0 pr-4">
+                  <p className="text-3xl font-black text-sky-600 tracking-tight">1 Video/Day</p>
+                  <p className="text-sm text-slate-500 font-medium mt-1">Drip habit without burnout</p>
+                </div>
+                <div className="md:border-r border-slate-100 last:border-r-0 pr-4">
+                  <p className="text-3xl font-black text-[#0F172A] tracking-tight">Dual Syllabus</p>
+                  <p className="text-sm text-slate-500 font-medium mt-1">Semester marks + Viva prep</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-black text-sky-600 tracking-tight">100% Verified</p>
+                  <p className="text-sm text-slate-500 font-medium mt-1">Tamper-proof credentials</p>
+                </div>
               </div>
             </div>
 
           </div>
         </section>
 
-        {/* ── 5 DEDICATED CURRICULUM PILLARS SECTION ── */}
-        <section id="curriculum" className="w-full border-b border-slate-800/60 py-16 sm:py-24 lg:py-28 relative overflow-hidden">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-xs font-mono uppercase tracking-widest text-slate-400 mb-3">
+        {/* ── 3. PILLAR CARDS SECTION ("5 ESSENTIAL PILLARS") ── */}
+        <section id="curriculum" className="w-full py-16 sm:py-24 bg-white border-b border-slate-200/80 relative">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-sky-600 mb-2">
                 Comprehensive CSE Curriculums
               </h2>
-              <p className="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
                 5 Essential Pillars Every CSE Student Must Master
               </p>
-              <p className="text-slate-400 mt-4 text-base">
+              <p className="text-slate-600 mt-3 text-base">
                 Whether you are aiming for high-paying product company campus placements or scoring top SGPA in semester exams, Vyat covers the entire Computer Science Engineering roadmap.
               </p>
             </div>
 
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-12">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {CURRICULUM_PILLARS.map((pillar) => {
                 const IconComponent = pillar.icon;
+                const isYellow = pillar.badgeType === 'yellow';
+
                 return (
                   <article
                     key={pillar.id}
-                    className="w-full bg-[#0d131f] border border-slate-800 hover:border-slate-700 p-6 sm:p-8 rounded-2xl flex flex-col justify-between transition-all duration-200 group"
+                    className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-1 h-full flex flex-col justify-between group"
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 flex items-center justify-center group-hover:scale-105 transition-transform">
-                          <IconComponent size={24} />
+                      {/* Top Row: Icon + Badge */}
+                      <div className="flex items-center justify-between mb-5">
+                        <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-700 group-hover:scale-105 group-hover:border-sky-300 transition-all">
+                          <IconComponent size={22} className="text-sky-600" />
                         </div>
-                        <span className="px-2.5 py-1 text-xs font-mono uppercase bg-slate-800 text-slate-300 border border-slate-700 rounded-md">
-                          {pillar.tag}
+                        <span
+                          className={`px-2.5 py-1 text-xs font-semibold rounded-md border ${
+                            isYellow
+                              ? 'bg-amber-50 text-amber-900 border-amber-200'
+                              : 'bg-sky-50 text-sky-800 border-sky-200'
+                          }`}
+                        >
+                          {pillar.category}
                         </span>
                       </div>
 
-                      <h3 className="text-xl sm:text-2xl font-bold text-slate-100 mb-2 leading-snug">
+                      {/* Title & Sub-hook */}
+                      <h3 className="text-xl font-bold text-slate-950 mb-2 leading-snug">
                         {pillar.title}
                       </h3>
                       
-                      <p className="text-slate-400 text-sm leading-relaxed mb-6 font-normal">
-                        {pillar.description}
+                      <p className="text-sm text-slate-600 leading-relaxed mb-6 font-normal">
+                        {pillar.hook}
                       </p>
 
-                      <ul className="space-y-2.5 text-xs font-medium text-slate-300 mb-6">
+                      {/* 3-Point Checklist */}
+                      <ul className="space-y-2.5 text-xs sm:text-sm font-medium text-slate-700 mb-6">
                         {pillar.highlights.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2.5">
-                            <CheckCircle2 size={15} className="text-slate-400 shrink-0 mt-0.5" />
-                            <span>{item}</span>
+                            <CheckCircle2 size={16} className="text-sky-600 shrink-0 mt-0.5" />
+                            <span className="leading-snug">{item}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="pt-6 border-t border-slate-800/80 flex items-center justify-between">
-                      <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
-                        {pillar.badge}
+                    {/* Bottom Action Area */}
+                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-xs font-mono font-medium text-slate-400">
+                        {pillar.tag}
                       </span>
                       <Link
                         href="/explore"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 hover:text-sky-700 transition-colors"
                       >
-                        Explore <ArrowRight size={14} />
+                        Explore Track <ArrowRight size={14} />
                       </Link>
                     </div>
                   </article>
@@ -362,98 +355,125 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
           </div>
         </section>
 
-        {/* ── DESIGNED FOR INDIAN ENGINEERING STUDENTS ── */}
-        <section id="engineering-context" className="w-full border-b border-slate-800/60 py-16 sm:py-24 lg:py-28 relative overflow-hidden">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-xs font-mono uppercase tracking-widest text-slate-400 mb-3">
+        {/* ── 4. WHY ENGINEERING STUDENTS CHOOSE VYAT (BENTO CARDS) ── */}
+        <section id="engineering-context" className="w-full py-16 sm:py-24 bg-[#F8FAFC] border-b border-slate-200/80 relative">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-sky-600 mb-2">
                 The Indian College Reality
               </h2>
-              <p className="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
                 Why Engineering Students Across India Choose Vyat
               </p>
-              <p className="text-slate-400 mt-4 text-base">
-                College lectures and traditional online courses fail Indian engineering students in two predictable ways: outdated syllabi and unmanageable 60-hour video dumps. Vyat was built differently.
+              <p className="text-slate-600 mt-3 text-base">
+                College lectures and traditional online courses fail Indian engineering students in predictable ways: outdated syllabi and unmanageable 60-hour video dumps.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              <div className="p-6 sm:p-8 rounded-2xl bg-[#0d131f] border border-slate-800">
-                <div className="text-2xl font-bold font-mono text-slate-400 mb-3">01</div>
-                <h3 className="text-xl font-bold text-slate-100 mb-2">College Timetable Friendly</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  Indian engineering colleges enforce 75% mandatory attendance, long lab sessions, and internal assignments. Vyat&apos;s <strong className="text-slate-200">1 lesson/day rhythm (15–25 mins)</strong> fits seamlessly into your evening routine without burnout.
-                </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Card 1: Obsidian Dark Contrast Card */}
+              <div className="p-8 rounded-2xl bg-[#0F172A] text-white border border-slate-800 shadow-md flex flex-col justify-between">
+                <div>
+                  <span className="inline-block px-2.5 py-1 text-xs font-semibold rounded-md bg-[#FEF08A]/15 text-[#FEF08A] border border-[#FEF08A]/30 mb-4">
+                    01 · College Timetable Friendly
+                  </span>
+                  <h3 className="text-xl font-bold text-white mb-3">1 Daily Lesson Fits Your Schedule</h3>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    Indian engineering colleges enforce 75% mandatory attendance, long lab sessions, and internal assignments. Vyat’s <strong className="text-white">1 lesson/day rhythm (15–25 mins)</strong> fits seamlessly into your evening routine without late-night burnout.
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-800 mt-6 text-xs text-slate-400 font-medium">
+                  ✓ Zero binge burnout · Consistent daily progress
+                </div>
               </div>
 
-              <div className="p-6 sm:p-8 rounded-2xl bg-[#0d131f] border border-slate-800">
-                <div className="text-2xl font-bold font-mono text-slate-400 mb-3">02</div>
-                <h3 className="text-xl font-bold text-slate-100 mb-2">Semester GPA + Placement Tests</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  You don&apos;t have to sacrifice your university marks to prepare for tech companies. Our courses cover both university semester theoretical deep-dives (OS/DBMS/CN) and rigorous LeetCode-style coding questions.
-                </p>
+              {/* Card 2: Light Card */}
+              <div className="p-8 rounded-2xl bg-white text-slate-900 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                  <span className="inline-block px-2.5 py-1 text-xs font-semibold rounded-md bg-sky-50 text-sky-800 border border-sky-200 mb-4">
+                    02 · Dual Syllabus Coverage
+                  </span>
+                  <h3 className="text-xl font-bold text-[#0F172A] mb-3">Semester GPA + Placement Coding</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    You don’t have to sacrifice university marks to prepare for tech companies. Our courses cover both university semester theoretical deep-dives (OS, DBMS, Computer Networks) and rigorous LeetCode coding patterns.
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-100 mt-6 text-xs text-slate-500 font-medium">
+                  ✓ Matches AKTU, VTU, Anna Univ &amp; JNTU syllabi
+                </div>
               </div>
 
-              <div className="p-6 sm:p-8 rounded-2xl bg-[#0d131f] border border-slate-800">
-                <div className="text-2xl font-bold font-mono text-slate-400 mb-3">03</div>
-                <h3 className="text-xl font-bold text-slate-100 mb-2">Modern Tech: Web Dev &amp; AI</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  College syllabi rarely teach modern Next.js, TypeScript, cloud deployments, or Generative AI. Vyat brings the latest industry technologies directly to your screen with hands-on projects you can show off.
-                </p>
+              {/* Card 3: Light Card */}
+              <div className="p-8 rounded-2xl bg-white text-slate-900 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                  <span className="inline-block px-2.5 py-1 text-xs font-semibold rounded-md bg-amber-50 text-amber-900 border border-amber-200 mb-4">
+                    03 · Modern Industry Tech
+                  </span>
+                  <h3 className="text-xl font-bold text-[#0F172A] mb-3">Full-Stack &amp; Generative AI</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    College syllabi rarely teach modern Next.js, TypeScript, cloud deployments, or Generative AI. Vyat brings production engineering directly to your screen with hands-on projects recruiters love.
+                  </p>
+                </div>
+                <div className="pt-6 border-t border-slate-100 mt-6 text-xs text-slate-500 font-medium">
+                  ✓ 3 Full-stack &amp; AI portfolio capstones
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── WHY VYAT ADVANTAGES ── */}
-        <section id="advantages" className="w-full border-b border-slate-800/60 py-16 sm:py-24 lg:py-28 relative overflow-hidden">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-xs font-mono uppercase tracking-widest text-slate-400 mb-3">
+        {/* ── 5. 1 VIDEO / DAY HABIT ENGINE ── */}
+        <section id="advantages" className="w-full py-16 sm:py-24 bg-white border-b border-slate-200/80 relative">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-sky-600 mb-2">
                 Engineered for Long-Term Retention
               </h2>
-              <p className="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
                 How Daily Drip Learning Guarantees Mastery
+              </p>
+              <p className="text-slate-600 mt-3 text-base">
+                Consistency beats 40-hour weekend marathons every single time.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 rounded-2xl bg-[#0d131f] border border-slate-800">
-                <div className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-mono font-bold mb-4">
+              <div className="p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200 shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 font-bold flex items-center justify-center mb-4 text-sm">
                   1
                 </div>
-                <h3 className="font-bold text-lg text-slate-100 mb-2">1 Video Per Day</h3>
-                <p className="text-sm text-slate-400">
+                <h3 className="font-bold text-lg text-[#0F172A] mb-2">1 Video Per Day</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
                   New video lessons release daily. Prevents bingeing and forgetting, building rock-solid recall for viva and interviews.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#0d131f] border border-slate-800">
-                <div className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-mono font-bold mb-4">
+              <div className="p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200 shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 font-bold flex items-center justify-center mb-4 text-sm">
                   2
                 </div>
-                <h3 className="font-bold text-lg text-slate-100 mb-2">Placement Coding Rounds</h3>
-                <p className="text-sm text-slate-400">
+                <h3 className="font-bold text-lg text-[#0F172A] mb-2">Placement Coding Rounds</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
                   Step-by-step problem breakdowns that mimic the exact coding rounds used by leading tech recruiters.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#0d131f] border border-slate-800">
-                <div className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-mono font-bold mb-4">
+              <div className="p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200 shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 font-bold flex items-center justify-center mb-4 text-sm">
                   3
                 </div>
-                <h3 className="font-bold text-lg text-slate-100 mb-2">Interactive MCQs</h3>
-                <p className="text-sm text-slate-400">
+                <h3 className="font-bold text-lg text-[#0F172A] mb-2">Interactive MCQs</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
                   Instant checkpoints and concept tests after every lesson to verify your understanding immediately.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#0d131f] border border-slate-800">
-                <div className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-mono font-bold mb-4">
+              <div className="p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200 shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 font-bold flex items-center justify-center mb-4 text-sm">
                   4
                 </div>
-                <h3 className="font-bold text-lg text-slate-100 mb-2">Verified Credentials</h3>
-                <p className="text-sm text-slate-400">
+                <h3 className="font-bold text-lg text-[#0F172A] mb-2">Verified Credentials</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
                   Tamper-proof verifiable certificates issued only when the full planned curriculum has been completed.
                 </p>
               </div>
@@ -461,70 +481,74 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
           </div>
         </section>
 
-        {/* ── VERIFIED CERTIFICATE SPOTLIGHT ── */}
-        <section id="credentials" className="w-full border-b border-slate-800/60 py-16 sm:py-24 lg:py-28 relative overflow-hidden">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-            <div className="rounded-3xl p-8 sm:p-12 lg:p-16 bg-[#0d131f] border border-slate-800 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-12">
+        {/* ── 6. VERIFIED CERTIFICATE SPOTLIGHT ── */}
+        <section id="credentials" className="w-full py-16 sm:py-24 bg-[#F8FAFC] border-b border-slate-200/80 relative">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="rounded-3xl p-8 sm:p-12 lg:p-16 bg-[#0F172A] text-white border border-slate-800 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-12">
               <div className="max-w-2xl">
-                <span className="px-2.5 py-1 text-xs font-mono uppercase bg-slate-800 text-slate-300 border border-slate-700 rounded-md inline-flex items-center gap-1.5 mb-4">
-                  <Award size={14} className="text-slate-300" /> Resume &amp; LinkedIn Verified
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FEF08A]/15 text-[#FEF08A] border border-[#FEF08A]/30 mb-4">
+                  <Award size={14} className="text-[#FEF08A]" /> Verified Anti-Cheat Credential
                 </span>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-100 tracking-tight mb-4 leading-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
                   Earn Credentials That Prove Practical Competency
                 </h2>
-                <p className="text-slate-400 text-base leading-relaxed mb-8">
-                  Unlike platforms that issue certificates after skipping videos, Vyat unlocks certificates only when all lessons in the curriculum have been completed and verified. Share your authenticated verification link on your resume and LinkedIn with total confidence.
+                <p className="text-slate-300 text-base leading-relaxed mb-8">
+                  Unlike platforms where users skip videos to get a badge, Vyat strictly unlocks credentials only after every lesson and checkpoint in the curriculum has been completed. Share your authentic verification link on LinkedIn and your resume with total confidence.
                 </p>
-                <div className="flex flex-wrap gap-3 text-xs font-mono">
+                <div className="flex flex-wrap gap-3 text-xs">
                   <div className="flex items-center gap-2 bg-slate-800/80 border border-slate-700 px-3.5 py-2 rounded-xl text-slate-300">
-                    <CheckCircle2 size={15} className="text-slate-400" /> Unique Credential ID
+                    <CheckCircle2 size={15} className="text-sky-400" /> Unique Credential ID
                   </div>
                   <div className="flex items-center gap-2 bg-slate-800/80 border border-slate-700 px-3.5 py-2 rounded-xl text-slate-300">
-                    <CheckCircle2 size={15} className="text-slate-400" /> Public Verification URL
+                    <CheckCircle2 size={15} className="text-sky-400" /> Public Verification URL
                   </div>
                   <div className="flex items-center gap-2 bg-slate-800/80 border border-slate-700 px-3.5 py-2 rounded-xl text-slate-300">
-                    <CheckCircle2 size={15} className="text-slate-400" /> Anti-Fraud Guaranteed
+                    <CheckCircle2 size={15} className="text-sky-400" /> Anti-Fraud Guaranteed
                   </div>
                 </div>
               </div>
 
-              {/* Certificate Mockup Visual */}
-              <div className="w-full max-w-md bg-[#0f172a] text-slate-100 border border-slate-700 shadow-2xl rounded-2xl p-6 sm:p-8 relative overflow-hidden shrink-0">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              {/* Realistic Certificate Mockup Visual */}
+              <div className="w-full max-w-md bg-white text-slate-900 border border-slate-200 shadow-2xl rounded-2xl p-6 sm:p-8 relative shrink-0">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                    <div className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
                       V
                     </div>
-                    <span className="font-bold text-sm tracking-tight text-slate-100">Vyat Engineering</span>
+                    <span className="font-bold text-sm tracking-tight text-slate-900">Vyat Engineering</span>
                   </div>
-                  <Award size={22} className="text-slate-400" />
+                  <span className="px-2.5 py-1 text-[11px] font-semibold bg-sky-50 text-sky-700 border border-sky-200 rounded-full">
+                    Anti-Cheat Verified
+                  </span>
                 </div>
                 <div className="py-8 text-center">
-                  <p className="text-xs uppercase tracking-widest font-mono text-slate-400 font-semibold">Certificate of Completion</p>
-                  <p className="text-2xl font-bold text-slate-100 mt-3">Aarav Patel</p>
-                  <p className="text-xs text-slate-400 mt-2">has demonstrated proficiency in</p>
-                  <p className="text-base font-semibold text-slate-200 mt-1">Data Structures &amp; Algorithms</p>
+                  <p className="text-[11px] uppercase tracking-widest font-semibold text-slate-400">Certificate of Completion</p>
+                  <p className="text-2xl font-extrabold text-slate-900 mt-2">Aarav Patel</p>
+                  <p className="text-xs text-slate-500 mt-1">has demonstrated practical mastery in</p>
+                  <p className="text-base font-bold text-sky-700 mt-1">Data Structures &amp; Algorithms</p>
                 </div>
-                <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-mono">
                   <span>ID: VYAT-2026-CSE-84920</span>
-                  <span className="px-2.5 py-1 text-xs font-mono uppercase bg-slate-800 text-slate-300 border border-slate-700 rounded-md">✓ Verified</span>
+                  <span className="text-emerald-600 font-semibold flex items-center gap-1">
+                    <CheckCircle2 size={13} /> Authenticated
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── FAQ SECTION (SEO FAQ RICH SNIPPET READY) ── */}
-        <section id="faq" className="w-full border-b border-slate-800/60 py-16 sm:py-24 lg:py-28 relative overflow-hidden">
-          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-xs font-mono uppercase tracking-widest text-slate-400 mb-3">
+        {/* ── 7. FAQ SECTION ── */}
+        <section id="faq" className="w-full py-16 sm:py-24 bg-white border-b border-slate-200/80 relative">
+          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-14">
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-sky-600 mb-2">
                 Got Questions?
               </h2>
-              <p className="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
+              <p className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
                 Frequently Asked Questions for CSE Students
               </p>
-              <p className="text-slate-400 mt-3 text-sm">
+              <p className="text-slate-600 mt-3 text-base">
                 Everything you need to know about Vyat courses, placements, and learning format.
               </p>
             </div>
@@ -533,13 +557,13 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
               {FAQS.map((faq, idx) => (
                 <details
                   key={idx}
-                  className="group p-6 rounded-2xl bg-[#0d131f] border border-slate-800 open:border-slate-700 transition-colors"
+                  className="group p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200 shadow-sm open:border-sky-300 transition-colors"
                 >
-                  <summary className="flex items-center justify-between font-semibold text-base sm:text-lg text-slate-100 cursor-pointer list-none">
+                  <summary className="flex items-center justify-between font-semibold text-base sm:text-lg text-slate-900 cursor-pointer list-none">
                     <span>{faq.q}</span>
-                    <ChevronRight size={18} className="text-slate-400 group-open:rotate-90 transition-transform shrink-0 ml-4" />
+                    <ChevronRight size={18} className="text-slate-400 group-open:rotate-90 group-open:text-sky-600 transition-transform shrink-0 ml-4" />
                   </summary>
-                  <p className="mt-4 text-sm text-slate-400 leading-relaxed font-normal">
+                  <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed font-normal pt-3 border-t border-slate-200/60">
                     {faq.a}
                   </p>
                 </details>
@@ -548,23 +572,26 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
           </div>
         </section>
 
-        {/* ── FINAL CALL TO ACTION ── */}
-        <section className="w-full border-b border-slate-800/60 py-16 sm:py-24 text-center relative overflow-hidden">
-          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-100 tracking-tight mb-6">
-              Ready to Accelerate Your CSE Career?
+        {/* ── 8. PRE-FOOTER CTA BANNER ── */}
+        <section className="w-full py-16 sm:py-24 bg-[#0F172A] text-center relative overflow-hidden border-b border-slate-800">
+          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p className="text-[#FEF08A] text-xs font-semibold tracking-wider uppercase mb-3">
+              ⚡ Accelerate Your Career
+            </p>
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+              Ready to Master Computer Science?
             </h2>
-            <p className="text-slate-400 text-base max-w-xl mx-auto mb-8">
+            <p className="text-slate-300 text-base max-w-xl mx-auto mb-8">
               Join thousands of engineering students across India mastering core computer science, DSA, Web Dev, and AI to secure top engineering placements.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/explore">
-                <button className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/20 transition-all flex items-center justify-center gap-2 text-sm sm:text-base">
+                <button className="w-full sm:w-auto px-8 py-4 bg-sky-500 hover:bg-sky-400 text-white font-semibold rounded-xl shadow-lg shadow-sky-500/25 transition-all hover:scale-105 flex items-center justify-center gap-2 text-base">
                   Explore All CSE Courses <ArrowRight size={18} />
                 </button>
               </Link>
               <Link href="/login">
-                <button className="w-full sm:w-auto px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl border border-slate-700 transition-all text-sm sm:text-base">
+                <button className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/15 text-white font-semibold rounded-xl border border-white/20 transition-all text-base">
                   Sign In to Dashboard
                 </button>
               </Link>
@@ -573,14 +600,14 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
         </section>
       </main>
 
-      {/* ── FOOTER ── */}
-      <footer className="w-full bg-[#05070a] border-t border-slate-800/80 py-12 text-sm text-slate-500">
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+      {/* ── 9. FOOTER ── */}
+      <footer className="w-full bg-[#0B0F17] border-t border-slate-800/80 py-12 text-sm text-slate-400">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-sm">
               V
             </div>
-            <span className="font-bold text-slate-200 text-base">Vyat</span>
+            <span className="font-bold text-slate-100 text-base">Vyat</span>
             <span className="text-xs text-slate-500">· Courses for CSE &amp; Engineering Students in India</span>
           </div>
           <div className="flex flex-wrap items-center gap-6 text-xs font-semibold text-slate-400">
@@ -590,7 +617,7 @@ export default function PublicLanding({ branches, skillsCount, coursesCount }: P
             <Link href="/login" className="hover:text-white transition-colors">Student Login</Link>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </div>
-          <p className="text-xs text-slate-600">
+          <p className="text-xs text-slate-500">
             © {new Date().getFullYear()} Vyat. All rights reserved.
           </p>
         </div>
