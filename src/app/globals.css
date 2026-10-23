@@ -56,23 +56,23 @@
    Dark Mode Variables (default)
    ============================================================ */
 :root {
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #111118;
-  --bg-tertiary: #1a1a24;
-  --bg-card: #14141e;
-  --bg-card-hover: #1a1a28;
-  --bg-elevated: #1e1e2a;
+  --bg-primary: #07090e;
+  --bg-secondary: #0d131f;
+  --bg-tertiary: #131a29;
+  --bg-card: #0d131f;
+  --bg-card-hover: #162035;
+  --bg-elevated: #1e293b;
 
-  --border-primary: #2a2a3a;
-  --border-secondary: #222233;
-  --border-hover: #3a3a4f;
+  --border-primary: #1e293b;
+  --border-secondary: #172033;
+  --border-hover: #334155;
 
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
   --text-tertiary: #94a3b8;
   --text-muted: #64748b;
 
-  --glass-bg: rgba(20, 20, 30, 0.8);
+  --glass-bg: rgba(13, 19, 31, 0.85);
   --glass-border: rgba(255, 255, 255, 0.06);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 

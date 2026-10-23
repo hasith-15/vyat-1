@@ -155,7 +155,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased bg-[#07090e] text-slate-100 selection:bg-blue-500/20 selection:text-blue-200">
         <ThemeProvider>
           <ToastProvider>
             {children}
